@@ -298,8 +298,9 @@ def place_bet():
 
     session['betslip'] = []
     session['balance'] = fmt(user['balance'] - stake)
-    flash(f'Bet placed! ✅ Share code: <strong>{share_code}</strong> — Potential win: {fmt(potential)} TZS', 'success')
-    return redirect(url_for('my_bets'))
+  # In the place_bet route, after placing the bet, change the redirect:
+flash(f'Bet placed! ✅ Share code: <strong>{share_code}</strong> — Potential win: {fmt(potential)} TZS', 'success')
+return redirect(url_for('view_shared_bet', code=share_code))  # Redirect to share page instead of my_bets
 
 @app.route('/bet/share/<code>')
 def view_shared_bet(code):
