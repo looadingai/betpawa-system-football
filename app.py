@@ -257,7 +257,14 @@ def betslip_remove():
 def betslip_clear():
     session['betslip'] = []
     session.modified = True
-    return jsonify({'ok': True})
+    
+    # Check if it's an AJAX request
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.headers.get('Content-Type') == 'application/json':
+        return jsonify({'ok': True})
+    else:
+        # For regular form submissions, redirect back
+        flash('Betslip cleared.', 'info')
+        return redirect(request.referrer or url_for('virtuals'))
 
 @app.route('/betslip/place', methods=['POST'])
 @login_required
